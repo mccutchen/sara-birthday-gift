@@ -1,0 +1,22 @@
+#!/bin/sh
+
+set -e
+
+width=7200
+height=3600
+ngram_size=4
+
+outdir="output/${width}x${height}-$(date +%s)"
+mkdir -p "$outdir"
+
+function make_gift() {
+    image="$1"
+    outpath="$outdir/$image.png"
+    echo "Remixing $image in $outpath..."
+    ./markovangelo.py --width=$width --height=$height --ngram-size=$ngram_size input/$image > $outpath
+}
+
+make_gift "starrynight.gif"
+make_gift "dali.jpg"
+
+open "$outdir"/*.png
